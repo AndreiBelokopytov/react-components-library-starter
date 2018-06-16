@@ -1,4 +1,7 @@
+@import '../styles/variables.css';
+
 .hello {
   font-size: 18px;
   font-weight: bold;
+  color: var(--color-primary);
 }
