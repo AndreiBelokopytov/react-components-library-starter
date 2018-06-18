@@ -8,7 +8,10 @@ module.exports = (baseConfig, env, config) => {
     if (/\.css$/.toString() === rule.test.toString()) {
       return {
         test: /\.css$/,
-        include: path.resolve(__dirname, "../lib"),
+        include: [
+          path.resolve(__dirname, '../lib'),
+          path.resolve(__dirname, '../stories')
+        ],
         use: [
           require.resolve('style-loader'),
           require.resolve('postcss-loader')
