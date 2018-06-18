@@ -4,8 +4,8 @@ const TSDocgenPlugin = require("react-docgen-typescript-webpack-plugin");
 
 module.exports = (baseConfig, env, config) => {
   // we need to use custom postcss config in postcss-loader
-  config.module.rules.map(rule => {
-    if (/\.css$/.test(rule.test)) {
+  const rules = config.module.rules.map(rule => {
+    if (/\.css$/.toString() === rule.test.toString()) {
       return {
         test: /\.css$/,
         include: path.resolve(__dirname, "../lib"),
@@ -14,13 +14,19 @@ module.exports = (baseConfig, env, config) => {
           require.resolve('postcss-loader')
         ]
       };
+    } else {
+      return rule;
     }
   });
 
-  config.module.rules.push({
-    test: /\.(ts|tsx)$/,
-    loader: require.resolve("ts-loader")
-  });
+  config.module.rules = [
+    ...rules,
+    {
+      test: /\.(ts|tsx)$/,
+      loader: require.resolve("ts-loader")
+    }
+  ]
+
   config.plugins.push(new TSDocgenPlugin());
   config.resolve.extensions.push(".ts", ".tsx");
 
